@@ -154,7 +154,7 @@ MonoBehaviour:
   paper: {fileID: 2325290074444393804, guid: b5db2ba9fd0659d46b20324881555f52, type: 3}
   paperDeliveryTime: 0.5
   yAxis: 0
-  paperPlace: {fileID: 0}
+  paperPlace: {fileID: 1215141864}
 --- !u!4 &48491530 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9009781316774823831, guid: 2873ce3d51dc830418c58f48a05c1ec5, type: 3}
@@ -1674,7 +1674,7 @@ MonoBehaviour:
   paper: {fileID: 2325290074444393804, guid: b5db2ba9fd0659d46b20324881555f52, type: 3}
   paperDeliveryTime: 0.5
   yAxis: 0
-  paperPlace: {fileID: 0}
+  paperPlace: {fileID: 1215141864}
 --- !u!4 &1231852984 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9009781316774823831, guid: 2873ce3d51dc830418c58f48a05c1ec5, type: 3}
@@ -2301,7 +2301,7 @@ MonoBehaviour:
   paper: {fileID: 2325290074444393804, guid: b5db2ba9fd0659d46b20324881555f52, type: 3}
   paperDeliveryTime: 0.5
   yAxis: 0
-  paperPlace: {fileID: 0}
+  paperPlace: {fileID: 1215141864}
 --- !u!1001 &2102828585
 PrefabInstance:
   m_ObjectHideFlags: 0

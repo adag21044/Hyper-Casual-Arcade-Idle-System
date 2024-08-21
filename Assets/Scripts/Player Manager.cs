@@ -9,7 +9,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Vector3 cameraOffset; // Kamera ile oyuncu arasındaki sabit mesafe
     private float fixedYPosition;
     private Animator animator;
-    public Transform PaperPlace;
+    [SerializeField]public Transform PaperPlace;
     [SerializeField]private List<Transform> papers = new List<Transform>();
 
     private void Start() 
@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
         if (mainCamera != null)
             cameraOffset = mainCamera.transform.position - transform.position;
         
-        animator = GetComponent<Animator>();
+        
     }
 
     private void Update() 
@@ -50,8 +50,8 @@ public class PlayerManager : MonoBehaviour
 
         if(Physics.Raycast(transform.position, Vector3.down, out var hit, 1f))
         {
-            Debug.DrawRay(transform.position, transform.forward * 1f, Color.green);
-            if(hit.collider.CompareTag("table") && papers.Count > 2)
+            Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
+            if(hit.collider.CompareTag("table") && papers.Count < 21)
             {   
                 if(hit.collider.transform.childCount > 2)
                 {
@@ -60,6 +60,8 @@ public class PlayerManager : MonoBehaviour
                     paper.parent = null;
                 }
                 
+                animator.SetBool("carry",true);
+                animator.SetBool("run",false);
             }
         }
         else
