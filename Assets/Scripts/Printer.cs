@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using System.Collections.Generic;
 
 public class Printer : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class Printer : MonoBehaviour
     [SerializeField] private GameObject paper;
     [SerializeField] private float paperDeliveryTime;
     [SerializeField] private float yAxis;
+    private List<Transform> papers = new List<Transform>();
+    [SerializeField] private Transform paperPlace;
 
 
     private void Start()
@@ -18,6 +21,8 @@ public class Printer : MonoBehaviour
         }
 
         StartCoroutine(PrintPaper(paperDeliveryTime));
+
+        papers.Add(paperPlace);
     }
 
     public IEnumerator PrintPaper(float time)

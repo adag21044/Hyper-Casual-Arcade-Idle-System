@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Vector3 cameraOffset; // Kamera ile oyuncu arasındaki sabit mesafe
     private float fixedYPosition;
     private Animator animator;
+    public Transform PaperPlace;
+    [SerializeField]private List<Transform> papers = new List<Transform>();
 
     private void Start() 
     {
@@ -44,6 +47,26 @@ public class PlayerManager : MonoBehaviour
             animator.SetBool("run", true);
         else if (Input.GetMouseButtonUp(0))
             animator.SetBool("run", false);
+
+        if(Physics.Raycast(transform.position, Vector3.down, out var hit, 1f))
+        {
+            Debug.DrawRay(transform.position, transform.forward * 1f, Color.green);
+            if(hit.collider.CompareTag("table") && papers.Count > 2)
+            {   
+                if(hit.collider.transform.childCount > 2)
+                {
+                    var paper = hit.collider.transform.GetChild(1);
+                    papers.Add(paper);
+                    paper.parent = null;
+                }
+                
+            }
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
+        }
+
     }
 
     private void LateUpdate()
