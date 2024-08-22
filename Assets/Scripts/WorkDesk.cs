@@ -57,7 +57,7 @@ public class WorkDesk : MonoBehaviour
                     YAxis, DollarPlace.GetChild(DollarPlaceIndex).position.z),
                 DollarPlace.GetChild(DollarPlaceIndex).rotation);
 
-            NewDollar.transform.DOScale(new Vector3(0.4f, 0.4f, 0.6f), 0.5f).SetEase(Ease.OutElastic);
+            //NewDollar.transform.DOScale(new Vector3(0.4f, 0.4f, 0.6f), 0.5f).SetEase(Ease.OutElastic);
 
             if (DollarPlaceIndex < DollarPlace.childCount - 1)
             {

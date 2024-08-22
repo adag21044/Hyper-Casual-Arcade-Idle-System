@@ -774,7 +774,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   female_anim: {fileID: 2138551150}
   DollarPlace: {fileID: 373054090}
-  Dollar: {fileID: 0}
+  Dollar: {fileID: 4458464151579696026, guid: 1133ef9fe3bb6cf438aff2b9a832bce9, type: 3}
   PaperPlace: {fileID: 554932798}
 --- !u!4 &554932798 stripped
 Transform:
@@ -823,7 +823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   female_anim: {fileID: 842745993}
   DollarPlace: {fileID: 1563205134}
-  Dollar: {fileID: 0}
+  Dollar: {fileID: 4458464151579696026, guid: 1133ef9fe3bb6cf438aff2b9a832bce9, type: 3}
   PaperPlace: {fileID: 579996861}
 --- !u!4 &579996861 stripped
 Transform:
