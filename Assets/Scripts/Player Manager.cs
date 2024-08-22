@@ -120,4 +120,24 @@ public class PlayerManager : MonoBehaviour
             mainCamera.transform.LookAt(transform.position); // Kamera sürekli oyuncuya bakar
         }
     }
+
+    /// <summary>
+    /// OnTriggerEnter is called when the Collider other enters the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("table"))
+        {
+            if(papers.Count > 1)
+            {
+                animator.SetBool("carry", false);
+                animator.SetBool("RunWitthPaers", true);
+            }
+            else
+            {
+                animator.SetBool("run", true);
+            }   
+        }
+    }
 }
