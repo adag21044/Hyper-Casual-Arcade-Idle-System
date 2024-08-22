@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -46,10 +47,44 @@ public class PlayerManager : MonoBehaviour
         }
 
         if (Input.GetMouseButtonDown(0))
-            animator.SetBool("run", true);
-        else if (Input.GetMouseButtonUp(0))
-            animator.SetBool("run", false);
+        {
+            if (papers.Count > 1)
+            {
+                animator.SetBool("carry",false);
+                animator.SetBool("RunWithPapers",true);
+            }
+            else
+            {
+                animator.SetBool("run",true);
+            }
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            animator.SetBool("run",false);
 
+            if (papers.Count > 1)
+            {
+                animator.SetBool("carry",true);
+                animator.SetBool("RunWithPapers",false);
+            }
+
+        }
+            
+
+
+        if(papers.Count > 1)
+        {
+            for(int i = 1; i < papers.Count; i++)
+            {
+                var firstPaper = papers.ElementAt(i-1);
+                var secondPaper = papers.ElementAt(i);
+
+                secondPaper.position = new Vector3(Mathf.Lerp(secondPaper.position.x, firstPaper.position.x, Time.deltaTime * 15f),
+                                                Mathf.Lerp(secondPaper.position.y, firstPaper.position.y, Time.deltaTime * 15f),
+                                                firstPaper.position.z);
+            }
+        }
+            
         if(Physics.Raycast(transform.position,  transform.forward, out var hit, 2f))
         {
             Debug.DrawRay(transform.position,  transform.forward, Color.red);
@@ -64,6 +99,7 @@ public class PlayerManager : MonoBehaviour
                 }
                 
                 animator.SetBool("carry",true);
+                animator.SetBool("RunWithPapers",true);
                 animator.SetBool("run",false);
             }
         }
