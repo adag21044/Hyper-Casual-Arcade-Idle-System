@@ -93,7 +93,8 @@ public class PlayerManager : MonoBehaviour
                 if(hit.collider.transform.childCount > 2)
                 {
                     var paper = hit.collider.transform.GetChild(1);
-                    Debug.Log("Paper Name: " + paper.name);
+                    
+                   
                     papers.Add(paper);
                     paper.parent = PaperPlace;
                 }
