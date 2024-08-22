@@ -128,7 +128,7 @@ public class PlayerManager : MonoBehaviour
 
                 workDesk.parent.GetChild(workDesk.parent.childCount - 1).GetComponent<Renderer>().enabled = false;
                 
-                //if(papers)
+                
 
 
             }
@@ -171,6 +171,11 @@ public class PlayerManager : MonoBehaviour
             {
                 animator.SetBool("run", true);
             }   
+        }
+
+        if(other.CompareTag("pp"))
+        {
+            other.GetComponent<WorkDesk>().Work();
         }
     }
 
