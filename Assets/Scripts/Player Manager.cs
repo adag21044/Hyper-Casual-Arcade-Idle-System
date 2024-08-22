@@ -128,7 +128,12 @@ public class PlayerManager : MonoBehaviour
 
                 workDesk.parent.GetChild(workDesk.parent.childCount - 1).GetComponent<Renderer>().enabled = false;
                 
-                //if(papers)
+                if(papers.Count <= 1)
+                {
+                    
+                    animator.SetBool("idle",true);
+                    animator.SetBool("RunWithPapers",false);
+                }
 
 
             }
@@ -166,6 +171,7 @@ public class PlayerManager : MonoBehaviour
             {
                 animator.SetBool("carry", false);
                 animator.SetBool("RunWitthPaers", true);
+                
             }
             else
             {
@@ -176,6 +182,15 @@ public class PlayerManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if(other.CompareTag("pp"))
+        {
+            
+            animator.SetBool("RunWithPapers", false);
+            animator.SetBool("idle", false);
+            animator.SetBool("run", true);
+            delay = 0f;
+        }
+
         if(other.CompareTag("table"))
         {
             if(papers.Count > 1)
