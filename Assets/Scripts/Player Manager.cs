@@ -11,6 +11,8 @@ public class PlayerManager : MonoBehaviour
     private Animator animator;
     [SerializeField]public Transform PaperPlace;
     [SerializeField]private List<Transform> papers = new List<Transform>();
+    
+    
 
     private void Start() 
     {
@@ -48,16 +50,17 @@ public class PlayerManager : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
             animator.SetBool("run", false);
 
-        if(Physics.Raycast(transform.position, Vector3.down, out var hit, 1f))
+        if(Physics.Raycast(transform.position,  transform.forward, out var hit, 2f))
         {
-            Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
+            Debug.DrawRay(transform.position,  transform.forward, Color.red);
             if(hit.collider.CompareTag("table") && papers.Count < 21)
             {   
                 if(hit.collider.transform.childCount > 2)
                 {
                     var paper = hit.collider.transform.GetChild(1);
+                    Debug.Log("Paper Name: " + paper.name);
                     papers.Add(paper);
-                    paper.parent = null;
+                    paper.parent = PaperPlace;
                 }
                 
                 animator.SetBool("carry",true);
@@ -66,7 +69,7 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
+            Debug.DrawRay(transform.position, Vector3.down + transform.forward, Color.red);
         }
 
     }
