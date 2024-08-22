@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
+using DG.Tweening;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -12,7 +14,8 @@ public class PlayerManager : MonoBehaviour
     private Animator animator;
     [SerializeField]public Transform PaperPlace;
     [SerializeField]private List<Transform> papers = new List<Transform>();
-    
+    private float YAxis;
+    private float delay;
     
 
     private void Start() 
@@ -103,7 +106,32 @@ public class PlayerManager : MonoBehaviour
                 animator.SetBool("RunWithPapers",true);
                 animator.SetBool("run",false);
             }
+
+            if(hit.collider.CompareTag("pp") && papers.Count > 1)
+            {
+                Debug.Log("pp");
+                var workDesk = hit.collider.transform;
+
+                if(workDesk.childCount > 0) YAxis = workDesk.GetChild(workDesk.childCount - 1).position.y + 0.17f;
+                else YAxis = workDesk.position.y;
+
+                for(var index = papers.Count-1; index >= 1; index--)
+                {
+                    papers[index].DOJump(new Vector3(workDesk.position.x, YAxis, workDesk.position.z), 2f, 1, 0.2f).SetDelay(delay).SetEase(Ease.Flash);
+                    
+                    papers.ElementAt(index).parent = workDesk;
+                    papers.RemoveAt(index);
+
+                    YAxis += 0.17f;
+                    delay += 0.2f;
+                }
+                
+            }
+
+
         }
+        
+
         else
         {
             Debug.DrawRay(transform.position, Vector3.down + transform.forward, Color.red);
@@ -138,6 +166,22 @@ public class PlayerManager : MonoBehaviour
             {
                 animator.SetBool("run", true);
             }   
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag("table"))
+        {
+            if(papers.Count > 1)
+            {
+                animator.SetBool("carry", false);
+                animator.SetBool("RunWithPapers", true);
+            }
+            else
+            {
+                animator.SetBool("run", true);
+            }
         }
     }
 }
