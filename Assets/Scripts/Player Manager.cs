@@ -123,7 +123,7 @@ public class PlayerManager : MonoBehaviour
                     papers.RemoveAt(index);
 
                     YAxis += 0.17f;
-                    delay += 0.2f;
+                    delay += 0.02f;
                 }
                 
             }
