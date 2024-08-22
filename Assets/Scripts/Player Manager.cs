@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using DG.Tweening;
 
 public class PlayerManager : MonoBehaviour
@@ -12,22 +11,19 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Vector3 cameraOffset; // Kamera ile oyuncu arasındaki sabit mesafe
     private float fixedYPosition;
     private Animator animator;
-    [SerializeField]public Transform PaperPlace;
-    [SerializeField]private List<Transform> papers = new List<Transform>();
+    [SerializeField] public Transform PaperPlace;
+    [SerializeField] private List<Transform> papers = new List<Transform>();
     private float YAxis;
     private float delay = 0.2f;
-    
 
     private void Start() 
     {
         fixedYPosition = transform.position.y; 
         animator = GetComponent<Animator>();
-        
+
         // Varsayılan olarak kamera oyuncunun biraz arkasında ve yukarısında konumlanır
         if (mainCamera != null)
             cameraOffset = mainCamera.transform.position - transform.position;
-        
-        
     }
 
     private void Update() 
@@ -49,76 +45,78 @@ public class PlayerManager : MonoBehaviour
                 transform.LookAt(direction);
         }
 
+        // Animasyonları ayarlayan kodlar
         if (Input.GetMouseButtonDown(0))
         {
             if (papers.Count > 1)
             {
-                animator.SetBool("carry",false);
-                animator.SetBool("RunWithPapers",true);
+                animator.SetBool("carry", false);
+                animator.SetBool("RunWithPapers", true);
             }
             else
             {
-                animator.SetBool("run",true);
+                animator.SetBool("run", true);
             }
         }
+
         if (Input.GetMouseButtonUp(0))
         {
-            animator.SetBool("run",false);
+            animator.SetBool("run", false);
 
             if (papers.Count > 1)
             {
-                animator.SetBool("carry",true);
-                animator.SetBool("RunWithPapers",false);
+                animator.SetBool("carry", true);
+                animator.SetBool("RunWithPapers", false);
             }
-
         }
-            
 
-
-        if(papers.Count > 1)
+        // Kağıtları düzenleyen kodlar
+        if (papers.Count > 1)
         {
-            for(int i = 1; i < papers.Count; i++)
+            for (int i = 1; i < papers.Count; i++)
             {
-                var firstPaper = papers.ElementAt(i-1);
+                var firstPaper = papers.ElementAt(i - 1);
                 var secondPaper = papers.ElementAt(i);
 
-                secondPaper.position = new Vector3(Mathf.Lerp(secondPaper.position.x, firstPaper.position.x, Time.deltaTime * 15f),
-                                                Mathf.Lerp(secondPaper.position.y, firstPaper.position.y, Time.deltaTime * 15f),
-                                                firstPaper.position.z);
+                secondPaper.position = new Vector3(
+                    Mathf.Lerp(secondPaper.position.x, firstPaper.position.x, Time.deltaTime * 15f),
+                    Mathf.Lerp(secondPaper.position.y, firstPaper.position.y, Time.deltaTime * 15f),
+                    firstPaper.position.z);
             }
         }
-            
-        if(Physics.Raycast(transform.position,  transform.forward, out var hit, 2f))
+
+        // Kağıtların verilmesi ve kaldırılması
+        if (Physics.Raycast(transform.position, transform.forward, out var hit, 2f))
         {
-            Debug.DrawRay(transform.position,  transform.forward, Color.red);
-            if(hit.collider.CompareTag("table") && papers.Count < 21)
+            Debug.DrawRay(transform.position, transform.forward, Color.red);
+            if (hit.collider.CompareTag("table") && papers.Count < 21)
             {   
-                if(hit.collider.transform.childCount > 2)
+                if (hit.collider.transform.childCount > 2)
                 {
                     var paper = hit.collider.transform.GetChild(1);
-                    
-                   
+
                     papers.Add(paper);
                     paper.parent = PaperPlace;
                 }
-                
-                animator.SetBool("carry",true);
-                animator.SetBool("RunWithPapers",true);
-                animator.SetBool("run",false);
+
+                animator.SetBool("carry", true);
+                animator.SetBool("RunWithPapers", true);
+                animator.SetBool("run", false);
             }
 
-            if(hit.collider.CompareTag("pp") && papers.Count > 1)
+            if (hit.collider.CompareTag("pp") && papers.Count > 1)
             {
                 Debug.Log("pp");
                 var workDesk = hit.collider.transform;
 
-                if(workDesk.childCount > 0) YAxis = workDesk.GetChild(workDesk.childCount - 1).position.y + 0.17f;
-                else YAxis = workDesk.position.y;
+                if (workDesk.childCount > 0) 
+                    YAxis = workDesk.GetChild(workDesk.childCount - 1).position.y + 0.17f;
+                else 
+                    YAxis = workDesk.position.y;
 
-                for(var index = papers.Count-1; index >= 1; index--)
+                for (var index = papers.Count - 1; index >= 1; index--)
                 {
                     papers[index].DOJump(new Vector3(workDesk.position.x, YAxis, workDesk.position.z), 2f, 1, 0.2f).SetDelay(delay).SetEase(Ease.Flash);
-                    
                     papers.ElementAt(index).parent = workDesk;
                     papers.RemoveAt(index);
 
@@ -127,21 +125,20 @@ public class PlayerManager : MonoBehaviour
                 }
 
                 workDesk.parent.GetChild(workDesk.parent.childCount - 1).GetComponent<Renderer>().enabled = false;
-                
-                
 
-
+                // Set animation states based on paper count
+                if (papers.Count <= 1)
+                {
+                    animator.SetBool("carry", false);
+                    animator.SetBool("RunWithPapers", false);
+                    animator.SetBool("idle", true); // idle animation
+                }
             }
-
-
         }
-        
-
         else
         {
             Debug.DrawRay(transform.position, Vector3.down + transform.forward, Color.red);
         }
-
     }
 
     private void LateUpdate()
@@ -154,36 +151,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// OnTriggerEnter is called when the Collider other enters the trigger.
-    /// </summary>
-    /// <param name="other">The other Collider involved in this collision.</param>
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("table"))
+        if (other.CompareTag("table"))
         {
-            if(papers.Count > 1)
-            {
-                animator.SetBool("carry", false);
-                animator.SetBool("RunWitthPaers", true);
-            }
-            else
-            {
-                animator.SetBool("run", true);
-            }   
-        }
-
-        if(other.CompareTag("pp"))
-        {
-            other.GetComponent<WorkDesk>().Work();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.CompareTag("table"))
-        {
-            if(papers.Count > 1)
+            if (papers.Count > 1)
             {
                 animator.SetBool("carry", false);
                 animator.SetBool("RunWithPapers", true);
@@ -191,6 +163,27 @@ public class PlayerManager : MonoBehaviour
             else
             {
                 animator.SetBool("run", true);
+            }
+        }
+
+        if (other.CompareTag("pp"))
+        {
+            other.GetComponent<WorkDesk>().Work();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("table"))
+        {
+            if (papers.Count > 1)
+            {
+                animator.SetBool("carry", false);
+                animator.SetBool("RunWithPapers", true);
+            }
+            else
+            {
+                animator.SetBool("run", false); // Ensure "run" is set to false when leaving the table
             }
         }
     }

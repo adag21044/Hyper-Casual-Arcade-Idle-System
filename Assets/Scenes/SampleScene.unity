@@ -406,6 +406,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2054053575}
   m_SourcePrefab: {fileID: 100100000, guid: 2873ce3d51dc830418c58f48a05c1ec5, type: 3}
+--- !u!4 &373054090 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7770399062431253122, guid: b4c980e63896f6c429537da9122e3dcc, type: 3}
+  m_PrefabInstance: {fileID: 550918990}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &376301518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -767,7 +772,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc075c2013091947adbd7f1d6bee818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  femaleAnimator: {fileID: 2138551150}
+  female_anim: {fileID: 2138551150}
+  DollarPlace: {fileID: 373054090}
+  Dollar: {fileID: 0}
+  PaperPlace: {fileID: 554932798}
+--- !u!4 &554932798 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4167112611679963471, guid: b4c980e63896f6c429537da9122e3dcc, type: 3}
+  m_PrefabInstance: {fileID: 550918990}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &579996850 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4167112611679963468, guid: b4c980e63896f6c429537da9122e3dcc, type: 3}
@@ -808,7 +821,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc075c2013091947adbd7f1d6bee818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  femaleAnimator: {fileID: 842745993}
+  female_anim: {fileID: 842745993}
+  DollarPlace: {fileID: 1563205134}
+  Dollar: {fileID: 0}
+  PaperPlace: {fileID: 579996861}
+--- !u!4 &579996861 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4167112611679963471, guid: b4c980e63896f6c429537da9122e3dcc, type: 3}
+  m_PrefabInstance: {fileID: 580685951}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &580685951
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2080,6 +2101,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 48491527}
   m_SourcePrefab: {fileID: 100100000, guid: 2873ce3d51dc830418c58f48a05c1ec5, type: 3}
+--- !u!4 &1563205134 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7770399062431253122, guid: b4c980e63896f6c429537da9122e3dcc, type: 3}
+  m_PrefabInstance: {fileID: 580685951}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1767687489
 PrefabInstance:
   m_ObjectHideFlags: 0
