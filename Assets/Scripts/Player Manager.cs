@@ -125,7 +125,12 @@ public class PlayerManager : MonoBehaviour
                     YAxis += 0.17f;
                     delay += 0.02f;
                 }
+
+                workDesk.parent.GetChild(workDesk.parent.childCount - 1).GetComponent<Renderer>().enabled = false;
                 
+                //if(papers)
+
+
             }
 
 
