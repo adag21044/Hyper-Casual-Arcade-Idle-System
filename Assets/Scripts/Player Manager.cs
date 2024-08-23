@@ -17,20 +17,23 @@ public class PlayerManager : MonoBehaviour
     private float YAxis;
     private float delay = 0.2f;
     [SerializeField] private TextMeshProUGUI moneyCounter;
-    public int dollar =0;
+    public int dollar = 0;
+    
+    private bool isPlacingPapers = false; // Kağıt yerleştirme durumu kontrolü
 
     private void Start() 
     {
         fixedYPosition = transform.position.y; 
         animator = GetComponent<Animator>();
 
-        // Varsayılan olarak kamera oyuncunun biraz arkasında ve yukarısında konumlanır
         if (mainCamera != null)
             cameraOffset = mainCamera.transform.position - transform.position;
     }
 
     private void Update() 
     {
+        if (isPlacingPapers) return; // Eğer kağıt yerleştiriliyorsa inputları durdur
+
         if (Input.GetMouseButton(0))
         {
             Plane groundPlane = new Plane(Vector3.up, transform.position);
@@ -48,7 +51,6 @@ public class PlayerManager : MonoBehaviour
                 transform.LookAt(direction);
         }
 
-        // Animasyonları ayarlayan kodlar
         if (Input.GetMouseButtonDown(0))
         {
             if (papers.Count > 1)
@@ -73,7 +75,6 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-        // Kağıtları düzenleyen kodlar
         if (papers.Count > 1)
         {
             for (int i = 1; i < papers.Count; i++)
@@ -88,7 +89,6 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-        // Kağıtların verilmesi ve kaldırılması
         if (Physics.Raycast(transform.position, transform.forward, out var hit, 2f))
         {
             Debug.DrawRay(transform.position, transform.forward, Color.red);
@@ -111,6 +111,7 @@ public class PlayerManager : MonoBehaviour
             {
                 Debug.Log("pp");
                 var workDesk = hit.collider.transform;
+                isPlacingPapers = true; // Kağıt yerleştirme başlıyor, inputlar durdurulmalı
 
                 if (workDesk.childCount > 0) 
                     YAxis = workDesk.GetChild(workDesk.childCount - 1).position.y + 0.17f;
@@ -129,13 +130,14 @@ public class PlayerManager : MonoBehaviour
 
                 workDesk.parent.GetChild(workDesk.parent.childCount - 1).GetComponent<Renderer>().enabled = false;
 
-                // Set animation states based on paper count
                 if (papers.Count <= 1)
                 {
                     animator.SetBool("carry", false);
                     animator.SetBool("RunWithPapers", false);
                     animator.SetBool("idle", true); // idle animation
                 }
+
+                isPlacingPapers = false; // Kağıt yerleştirme bitti, inputlar tekrar aktif
             }
         }
         else
@@ -146,11 +148,10 @@ public class PlayerManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        // Kamera, oyuncunun hareketine göre güncellenir ve offset sabit kalır
         if (mainCamera != null)
         {
             mainCamera.transform.position = transform.position + cameraOffset;
-            mainCamera.transform.LookAt(transform.position); // Kamera sürekli oyuncuya bakar
+            mainCamera.transform.LookAt(transform.position);
         }
     }
 
@@ -194,7 +195,7 @@ public class PlayerManager : MonoBehaviour
             }
             else
             {
-                animator.SetBool("run", false); // Ensure "run" is set to false when leaving the table
+                animator.SetBool("run", false);
             }
         }
     }
