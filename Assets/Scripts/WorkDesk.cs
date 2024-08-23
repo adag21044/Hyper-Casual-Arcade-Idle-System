@@ -45,15 +45,19 @@ public class WorkDesk : MonoBehaviour
     private IEnumerator MakeMoney()
     {
         int DollarPlaceIndex = 0;
-
         yield return new WaitForSecondsRealtime(2);
 
-        while (PaperPlace.childCount > 0) // PaperPlace'deki child sayısına göre çalışır
+        while (PaperPlace.childCount > 0)
         {
-            GameObject NewDollar = Instantiate(Dollar, new Vector3(DollarPlace.GetChild(DollarPlaceIndex).position.x,
-                                               YAxis, DollarPlace.GetChild(DollarPlaceIndex).position.z),
-                                               DollarPlace.GetChild(DollarPlaceIndex).rotation);
+            // Zemin Yüksekliğini Ayarlayın
+            float yOffset = Dollar.GetComponent<Renderer>().bounds.extents.y; // Objeyi tam zemine yerleştirmek için gereken offset
 
+            GameObject NewDollar = Instantiate(Dollar, new Vector3(DollarPlace.GetChild(DollarPlaceIndex).position.x,
+                                            DollarPlace.GetChild(DollarPlaceIndex).position.y + yOffset, // Yüksekliği düzenledik
+                                            DollarPlace.GetChild(DollarPlaceIndex).position.z),
+                                            DollarPlace.GetChild(DollarPlaceIndex).rotation);
+
+            // Objeyi uygun boyutta ölçeklendirme
             NewDollar.transform.DOScale(new Vector3(0.1f, 0.1f, 0.15f), 0.5f).SetEase(Ease.OutElastic);
 
             if (DollarPlaceIndex < DollarPlace.childCount - 1)
