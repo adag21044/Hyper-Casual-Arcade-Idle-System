@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
+using DG.Tweening;
 
 public class WorkDesk : MonoBehaviour
 {
@@ -46,18 +44,17 @@ public class WorkDesk : MonoBehaviour
 
     private IEnumerator MakeMoney()
     {
-        var counter = 0;
-        var DollarPlaceIndex = 0;
+        int DollarPlaceIndex = 0;
 
         yield return new WaitForSecondsRealtime(2);
 
-        while (counter < PaperPlace.childCount)
+        while (PaperPlace.childCount > 0) // PaperPlace'deki child sayısına göre çalışır
         {
             GameObject NewDollar = Instantiate(Dollar, new Vector3(DollarPlace.GetChild(DollarPlaceIndex).position.x,
-                    YAxis, DollarPlace.GetChild(DollarPlaceIndex).position.z),
-                DollarPlace.GetChild(DollarPlaceIndex).rotation);
+                                               YAxis, DollarPlace.GetChild(DollarPlaceIndex).position.z),
+                                               DollarPlace.GetChild(DollarPlaceIndex).rotation);
 
-            //NewDollar.transform.DOScale(new Vector3(0.4f, 0.4f, 0.6f), 0.5f).SetEase(Ease.OutElastic);
+            NewDollar.transform.DOScale(new Vector3(0.1f, 0.1f, 0.15f), 0.5f).SetEase(Ease.OutElastic);
 
             if (DollarPlaceIndex < DollarPlace.childCount - 1)
             {
@@ -66,14 +63,14 @@ public class WorkDesk : MonoBehaviour
             else
             {
                 DollarPlaceIndex = 0;
-                YAxis += 0.5f;
+                YAxis += 0.2f;
             }
 
             yield return new WaitForSecondsRealtime(3f);
         }
     }
 
-    void DOSubmitPapers()
+    private void DOSubmitPapers()
     {
         if (PaperPlace.childCount > 0)
         {
@@ -88,9 +85,7 @@ public class WorkDesk : MonoBehaviour
             female_anim.SetBool("work", false);
             isWorking = false;
 
-            var Desk = transform.parent;
-            Desk.GetChild(Desk.childCount - 1).GetComponent<Renderer>().enabled = true;
-
+            // Para oluşturma sürecini durdur
             StopCoroutine(makeMoneyIE);
             YAxis = 0f;
             CancelInvoke("DOSubmitPapers");
