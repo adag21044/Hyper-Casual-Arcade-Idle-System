@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private List<Transform> papers = new List<Transform>();
     private float YAxis;
     private float delay = 0.2f;
+    [SerializeField] private TextMeshProUGUI moneyCounter;
+    public int dollar =0;
 
     private void Start() 
     {
@@ -169,6 +172,14 @@ public class PlayerManager : MonoBehaviour
         if (other.CompareTag("pp"))
         {
             other.GetComponent<WorkDesk>().Work();
+        }
+
+        if(other.CompareTag("dollar"))
+        {
+            Debug.Log("Dollar++");
+            Destroy(other.gameObject);
+            dollar += 5;
+            moneyCounter.text = "$"+dollar.ToString();
         }
     }
 
