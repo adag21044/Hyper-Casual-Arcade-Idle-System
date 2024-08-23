@@ -15,7 +15,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] public Transform PaperPlace;
     [SerializeField] private List<Transform> papers = new List<Transform>();
     private float YAxis;
-    private float delay = 0.2f;
+    private float delay = 0.05f;
     [SerializeField] private TextMeshProUGUI moneyCounter;
     public int dollar = 0;
     
