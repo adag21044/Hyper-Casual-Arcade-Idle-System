@@ -134,7 +134,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     animator.SetBool("carry", false);
                     animator.SetBool("RunWithPapers", false);
-                    animator.SetBool("idle", true); // idle animation
+                    animator.SetBool("run", true); // idle animation
                 }
 
                 isPlacingPapers = false; // Kağıt yerleştirme bitti, inputlar tekrar aktif
